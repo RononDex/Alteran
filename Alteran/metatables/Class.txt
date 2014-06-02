@@ -1,0 +1,27 @@
+--@name Class Metatable
+--@author Cobra
+
+--[[
+    The class Metatable tries to simulate a object in LUA
+    You can create a class or object out of a table by using
+    Alteran.Class(table)
+]]
+
+function Alteran.Class(members)
+  members = members or {}
+  local mt = {
+    __metatable = members;
+    __index     = members;
+  }
+  local function NewObject(_, init)
+    return setmetatable(init or {}, mt)
+  end
+  local function copy(obj, ...)
+    local newobj = obj:NewObject(unpack(arg))
+    for n,v in pairs(obj) do newobj[n] = v end
+    return newobj
+  end
+  members.NewObject  = members.NewObject  or NewObject
+  members.copy = members.copy or copy
+  return mt
+end

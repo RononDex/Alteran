@@ -1,0 +1,22 @@
+--@name Alteran Framework Testing
+--@author Cobra
+--@include Alteran/framework.txt
+--@sharedscreen
+--@highres
+
+require("Alteran/framework.txt")
+
+
+-- Initialize systems for test
+Alteran.InitializeCoreSystem()
+Alteran.InitializeUISystem()
+
+if CLIENT then
+    local infoLabel = Alteran.UI.Controls.Label.New("LblInfo", {    X = 10, 
+                                                                    Y = 10,
+                                                                    Text="Test screen for the Alteran framework",
+                                                                    Style = { Font = Alteran.UI.Style.HeaderFont }})
+    
+    local opsControlAbsolute = Alteran.UI.Controls.OpsCounter.New("CtlOpsAbsolute", { X = 10, Y = 990, Mode="Absolute" })
+    local opsControlPercent = Alteran.UI.Controls.OpsCounter.New("CtlOpsPercent", { X = 900, Y = 990, Mode="Percent" })
+end

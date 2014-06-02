@@ -1,0 +1,28 @@
+--@name Styles library
+--@author Cobra
+
+--[[
+    This file holds all the defined styles for the UI
+]]
+
+-- Setting up namespace
+Alteran.UI.Styles = { }
+
+-- Setting up default style
+Alteran.UI.Styles.DefaultStyle = { 
+    BackgroundColor = Alteran.CreateColor(0, 0, 40),
+    Font = "Arial",
+    FontSize = 14,
+    HeaderFont = "Arial",
+    HeaderFontSize = 20,
+    TextColor = Alteran.CreateColor(255, 255, 255)
+}
+-- Setting up default high res style
+Alteran.UI.Styles.DefaultStyleHighRes = { 
+    BackgroundColor = Alteran.CreateColor(0, 0, 40),
+    Font = "Arial",
+    FontSize = 20,
+    HeaderFont = "Arial",
+    HeaderFontSize = 30,
+    TextColor = Alteran.CreateColor(255, 255, 255)
+}

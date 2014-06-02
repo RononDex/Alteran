@@ -1,0 +1,11 @@
+--@name Base Control
+--@author Cobra
+
+--[[
+    The base control contains some basic fucntions and the metatable that should
+    get assigned to all controls
+]]
+
+-- Setup namespace
+Alteran.UI.Controls.BaseControl = { }
+Alteran.UI.Controls.BaseControl.IsUIControl = true

@@ -1,0 +1,76 @@
+--@name Framework Root File
+--@author Cobra
+
+--[[
+    *******************************************************************
+        Alteran Framework V0.1.0
+    *******************************************************************
+    Credits:
+        - Cobra (lead author, main programmer)
+        
+    This file is the entry point for the framework
+    This files includes all framework files and holds functions to initialize
+    the subsystems from the framework
+]]
+
+--@include Alteran/communication.txt
+--@include Alteran/color.txt
+--@include Alteran/table.txt
+--@include Alteran/metatables/Class.txt
+--@include Alteran/ui/ui.txt
+--@include Alteran/ui/styles.txt
+--@include Alteran/ui/controls/BaseControl.txt
+--@include Alteran/ui/controls/Label.txt
+--@include Alteran/ui/controls/OpsCounter.txt
+
+printConsole("Alteran Framework root file included")
+
+-- Setting up Alteran namespace
+Alteran = { }
+
+--[[
+    If you have placed this framework in a different folder than "Alteran"
+    you have to replace the path of all require
+    Furthermore you will have to change the paths in the
+    includes at the top of this page as they can't be build dynamically
+]]
+
+-- Initializes the Core of the framework
+function Alteran.InitializeCoreSystem()
+    if (CoreInitialized) then
+        printConsole("Tried to initialize core system more than once")
+        return
+    end
+    
+    -- Load all the necessary files
+    require("Alteran/metatables/Class.txt")
+    require("Alteran/communication.txt")
+    require("Alteran/color.txt")
+    require("Alteran/table.txt")
+    
+    CoreInitialized = true
+    printConsole("Core system loaded")
+end
+
+-- Initializes the UI system of the framework
+function Alteran.InitializeUISystem()
+    if (!CoreInitialized) then
+        Alteran.PrintError("The core system is not initialized yet")
+    end
+    
+    if (UIInitialized) then
+        printConsole("Tried to initialize ui system more than once")
+        return
+    end
+    
+    -- Load all the necessary files
+    require("Alteran/ui/ui.txt")
+    require("Alteran/ui/styles.txt")
+    Alteran.UI.Init()
+    require("Alteran/ui/controls/BaseControl.txt")
+    require("Alteran/ui/controls/Label.txt")
+    require("Alteran/ui/controls/OpsCounter.txt")
+    
+    UIInitialized = true
+    printConsole("UI system loaded")
+end

@@ -1,0 +1,34 @@
+--@name Button control
+--@author Cobra
+
+--[[
+    This file holds the touchscreen enabled button control
+]]
+
+-- Setting up the namespace for this control
+Alteran.UI.Controls.Button = { }
+
+-- Creates a new button
+function Alteran.UI.Controls.Button.New(id, parameters)
+    local control = Alteran.UI.Controls.Button:NewObject()
+    
+    control.ID = id
+    
+    -- Register control in the UI system
+    Alteran.UI.AddControl(control)
+end
+
+if CLIENT then
+    Alteran.UI.Controls.Button.Prototype = {
+        X = 0,
+        Y = 0,
+        Style = {
+            Font = Alteran.UI.Style.DefaultFont,
+            TextColor = Alteran.UI.Style.TextColor
+        },
+        Text = "Button"
+    }
+end
+
+-- Setup class
+Alteran.Class(Alteran.UI.Controls.Button)

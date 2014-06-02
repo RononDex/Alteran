@@ -18,5 +18,5 @@ if CLIENT then
                                                                     Style = { Font = Alteran.UI.Style.HeaderFont }})
     
     local opsControlAbsolute = Alteran.UI.Controls.OpsCounter.New("CtlOpsAbsolute", { X = 10, Y = 990, Mode="Absolute" })
-    local opsControlPercent = Alteran.UI.Controls.OpsCounter.New("CtlOpsPercent", { X = 900, Y = 990, Mode="Percent" })
+    local opsControlPercent = Alteran.UI.Controls.OpsCounter.New("CtlOpsPercent", { X = 920, Y = 990, Mode="Percent" })
 end

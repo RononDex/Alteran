@@ -22,6 +22,7 @@
 --@include Alteran/ui/controls/BaseControl.txt
 --@include Alteran/ui/controls/Label.txt
 --@include Alteran/ui/controls/OpsCounter.txt
+--@include Alteran/ui/controls/Button.txt
 
 printConsole("Alteran Framework root file included")
 
@@ -67,9 +68,11 @@ function Alteran.InitializeUISystem()
     require("Alteran/ui/ui.txt")
     require("Alteran/ui/styles.txt")
     Alteran.UI.Init()
+    
     require("Alteran/ui/controls/BaseControl.txt")
     require("Alteran/ui/controls/Label.txt")
     require("Alteran/ui/controls/OpsCounter.txt")
+    require("Alteran/ui/controls/Button.txt")
     
     UIInitialized = true
     printConsole("UI system loaded")

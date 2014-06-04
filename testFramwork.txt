@@ -16,6 +16,9 @@ if CLIENT then
                                                                     Y = 10,
                                                                     Text="Test screen for the Alteran framework",
                                                                     Style = { Font = Alteran.UI.Style.HeaderFont }})
+                                                                    
+    local button = Alteran.UI.Controls.Button.New("BtnTest", {  X = 200,
+                                                                Y = 200})
     
     local opsControlAbsolute = Alteran.UI.Controls.OpsCounter.New("CtlOpsAbsolute", { X = 10, Y = 990, Mode="Absolute" })
     local opsControlPercent = Alteran.UI.Controls.OpsCounter.New("CtlOpsPercent", { X = 920, Y = 990, Mode="Percent" })

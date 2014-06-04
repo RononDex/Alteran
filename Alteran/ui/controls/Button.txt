@@ -11,20 +11,65 @@ Alteran.UI.Controls.Button = { }
 -- Creates a new button
 function Alteran.UI.Controls.Button.New(id, parameters)
     local control = Alteran.UI.Controls.Button:NewObject()
-    
     control.ID = id
+    
+    Alteran.ExpandTable(control, Alteran.Clone(Alteran.UI.Controls.BaseControl))
+    Alteran.ExpandTable(control, parameters)
+    Alteran.ExpandTable(control, Alteran.Clone(Alteran.UI.Controls.Button.Prototype))
     
     -- Register control in the UI system
     Alteran.UI.AddControl(control)
+end
+
+-- The render function for the button
+-- Draws the button on the screen
+function Alteran.UI.Controls.Button:Render()
+    
+    -- Draw border
+    Alteran.UI.Screen.setColor( self.Style.Border.Color.R,
+                                self.Style.Border.Color.G,
+                                self.Style.Border.Color.B,
+                                self.Style.Border.Color.A)
+    
+    Alteran.UI.Screen.drawRect( self.X - self.Style.Border.Width,
+                                self.Y - self.Style.Border.Width,
+                                self.Width + (self.Style.Border.Width * 2),
+                                self.Height + (self.Style.Border.Width * 2))
+    
+    -- Draw background
+    Alteran.UI.Screen.setColor( self.Style.BackgroundColor.R,
+                                self.Style.BackgroundColor.G,
+                                self.Style.BackgroundColor.B,
+                                self.Style.BackgroundColor.A)
+                            
+    Alteran.UI.Screen.drawRect(self.X, self.Y, self.Width, self.Height)
+    
+    -- Draw text
+    Alteran.UI.Screen.setColor( self.Style.TextColor.R,
+                                self.Style.TextColor.G,
+                                self.Style.TextColor.B,
+                                self.Style.TextColor.A)
+                            
+    Alteran.UI.Screen.drawText(self.Style.Font, self.X + (self.Width / 2), self.Y + (self.Height / 2) - 7, self.Text, 1)
+    
+
+
 end
 
 if CLIENT then
     Alteran.UI.Controls.Button.Prototype = {
         X = 0,
         Y = 0,
+        Width = 150,
+        Height = 40,
         Style = {
+            BackgroundColor = Alteran.UI.Style.ControlBackgroundColor,
             Font = Alteran.UI.Style.DefaultFont,
-            TextColor = Alteran.UI.Style.TextColor
+            TextColor = Alteran.UI.Style.TextColor,
+                Border = { 
+                Width = 1,
+                Color = Alteran.UI.Style.DefaultBorderColor
+            },
         },
         Text = "Button"
     }

@@ -6,7 +6,7 @@
         Alteran Framework V0.1.0
     *******************************************************************
     Credits:
-        - Cobra (lead programmer)
+        - Cobra (lead author, main programmer)
         
     This file is the entry point for the framework
     This files includes all framework files and holds functions to initialize

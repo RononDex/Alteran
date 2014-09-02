@@ -1,0 +1,29 @@
+--@name 2D Vector
+--@author Cobra
+
+--[[
+    This file holds the class 2D Vector
+]]
+
+-- Setup namespace for the 2D vector class
+Alteran.Vector2D = { }
+
+-- Constructor
+function Alteran.Vector2D.New(x, y)
+    local vector2D = Alteran.Vector2D:NewObject()
+    
+    Alteran.ExpandTable(vector2D, Alteran.Clone(Alteran.Vector2D.Prototype))
+        
+    vector2D.X = x
+    vector2D.Y = y
+    
+    return vector2D
+end
+
+Alteran.Vector2D.Prototype = {
+    X = 0,
+    Y = 0
+}
+
+-- Setup class
+Alteran.Class(Alteran.Vector2D)

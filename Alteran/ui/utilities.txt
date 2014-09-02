@@ -1,0 +1,11 @@
+--@name Utilities that belong to the UI framework
+--@author Cobra
+
+--[[
+    This file contains some widely used methods and useful stuff for
+    UI controls coding.
+]]
+
+-- Setup namespace
+Alteran.UI.Utilities = { }
+

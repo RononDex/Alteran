@@ -8,6 +8,12 @@
     It also handels events and routes them to the corresponding controls
 ]]
 
+--@include Alteran/ui/styles.txt
+--@include Alteran/ui/controls/BaseControl.txt
+--@include Alteran/ui/controls/Label.txt
+--@include Alteran/ui/controls/OpsCounter.txt
+--@include Alteran/ui/controls/Button.txt
+
 -- Setup UI namespace
 Alteran.UI = { }
 Alteran.UI.Controls = { }
@@ -21,6 +27,10 @@ Alteran.UI.RegisteredControls = { }
 
 -- Initializes the UI system
 Alteran.UI.Init = function()
+    
+    -- Load files
+    require("Alteran/ui/styles.txt")
+    
     -- Initialize client side
     if CLIENT then
         Alteran.UI.Screen = loadLibrary("render")
@@ -33,6 +43,12 @@ Alteran.UI.Init = function()
         Alteran.UI.Style.DefaultFont = Alteran.UI.Screen.createFont(Alteran.UI.Style.Font, Alteran.UI.Style.FontSize, false)
         Alteran.UI.Style.HeaderFont = Alteran.UI.Screen.createFont(Alteran.UI.Style.HeaderFont, Alteran.UI.Style.HeaderFontSize, false)
     end
+    
+    -- Load files that require the style and fonts objects to be set
+    require("Alteran/ui/controls/BaseControl.txt")
+    require("Alteran/ui/controls/Label.txt")
+    require("Alteran/ui/controls/OpsCounter.txt")
+    require("Alteran/ui/controls/Button.txt")
 end
 
 -- Adds the given control to the UI system

@@ -13,16 +13,9 @@
     the subsystems from the framework
 ]]
 
---@include Alteran/communication.txt
---@include Alteran/color.txt
---@include Alteran/table.txt
 --@include Alteran/metatables/Class.txt
+--@include Alteran/utilities/utilities.txt
 --@include Alteran/ui/ui.txt
---@include Alteran/ui/styles.txt
---@include Alteran/ui/controls/BaseControl.txt
---@include Alteran/ui/controls/Label.txt
---@include Alteran/ui/controls/OpsCounter.txt
---@include Alteran/ui/controls/Button.txt
 
 printConsole("Alteran Framework root file included")
 
@@ -45,9 +38,7 @@ function Alteran.InitializeCoreSystem()
     
     -- Load all the necessary files
     require("Alteran/metatables/Class.txt")
-    require("Alteran/communication.txt")
-    require("Alteran/color.txt")
-    require("Alteran/table.txt")
+    require("Alteran/utilities/utilities.txt")
     
     CoreInitialized = true
     printConsole("Core system loaded")
@@ -66,14 +57,7 @@ function Alteran.InitializeUISystem()
     
     -- Load all the necessary files
     require("Alteran/ui/ui.txt")
-    require("Alteran/ui/styles.txt")
     Alteran.UI.Init()
-    
-    require("Alteran/ui/controls/BaseControl.txt")
-    require("Alteran/ui/controls/Label.txt")
-    require("Alteran/ui/controls/OpsCounter.txt")
-    require("Alteran/ui/controls/Button.txt")
-    
     UIInitialized = true
     printConsole("UI system loaded")
 end

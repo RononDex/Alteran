@@ -1,0 +1,16 @@
+--@name Utilities entry point
+--@author Cobra
+
+--[[
+    Loads all core utility files
+]]
+
+--@include Alteran/utilities/communication.txt
+--@include Alteran/utilities/color.txt
+--@include Alteran/utilities/table.txt
+--@include Alteran/utilities/Vector2D.txt
+
+require("Alteran/utilities/communication.txt")
+require("Alteran/utilities/color.txt")
+require("Alteran/utilities/table.txt")
+require("Alteran/utilities/Vector2D.txt")

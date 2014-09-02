@@ -19,6 +19,8 @@ function Alteran.UI.Controls.Button.New(id, parameters)
     
     -- Register control in the UI system
     Alteran.UI.AddControl(control)
+    
+    return control
 end
 
 -- The render function for the button

@@ -3,7 +3,7 @@
 
 --[[
     This file holds the class Polygon
-	The class Polygon supports 2D Vectors and 3D Vectors!
+    The class Polygon supports 2D Vectors and 3D Vectors!
 ]]
 
 -- Setup namespace fot the Polygon class

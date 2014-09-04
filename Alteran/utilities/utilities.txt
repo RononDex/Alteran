@@ -9,8 +9,10 @@
 --@include Alteran/utilities/color.txt
 --@include Alteran/utilities/table.txt
 --@include Alteran/utilities/Vector2D.txt
+--@include Alteran/utilities/Polygon.txt
 
 require("Alteran/utilities/communication.txt")
 require("Alteran/utilities/color.txt")
 require("Alteran/utilities/table.txt")
 require("Alteran/utilities/Vector2D.txt")
+require("Alteran/utilities/Polygon.txt")

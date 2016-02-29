@@ -3,23 +3,98 @@
 --@include Alteran/framework.txt
 --@sharedscreen
 --@highres
+--@updater STEAM_0:0:34192920
 
 require("Alteran/framework.txt")
 
 
--- Initialize systems for test
-Alteran.InitializeCoreSystem()
-Alteran.InitializeUISystem()
+---------------------------------------
+-- Do Initial load for the framework
+---------------------------------------
+Alteran.LoadCoreModule()
+Alteran.LoadUIModule()
+
+-- Callback function for button click. Gets called whenever a button is clicked on the screen
+function OnButtonClick(pressedPlayer, button)
+    Alteran.PrintToChat(button.ID.." pressed by player "..pressedPlayer:name())
+end
+
 
 if CLIENT then
-    local infoLabel = Alteran.UI.Controls.Label.New("LblInfo", {    X = 10, 
-                                                                    Y = 10,
-                                                                    Text="Test screen for the Alteran framework",
-                                                                    Style = { Font = Alteran.UI.Style.HeaderFont }})
-                                                                    
-    local button = Alteran.UI.Controls.Button.New("BtnTest", {  X = 200,
-                                                                Y = 200})
-    
-    local opsControlAbsolute = Alteran.UI.Controls.OpsCounter.New("CtlOpsAbsolute", { X = 10, Y = 990, Mode="Absolute" })
-    local opsControlPercent = Alteran.UI.Controls.OpsCounter.New("CtlOpsPercent", { X = 920, Y = 990, Mode="Percent" })
+    ---------------------------------------
+    -- Setup labels
+    ---------------------------------------
+    local infoLabel = Alteran.UI.Controls.Label.New("LblInfo", {
+        X = 10,                                             -- X position on the screen
+        Y = 10,                                             -- Y position on the screen
+        Text="Test screen for the Alteran framework",       -- Text to display
+        Style = { Font = Alteran.UI.Style.HeaderFont }
+    })
+
+    ---------------------------------------
+    -- Setup ops counters
+    ---------------------------------------
+    local opsControlAbsolute = Alteran.UI.Controls.OpsCounter.New("CtlOpsAbsolute", {
+        X = 10,                                             -- X position on the screen
+        Y = 990,                                            -- Y position on the screen
+        Mode="Absolute"                                     -- Set display mode to absolute values
+    })
+
+    local opsControlPercent = Alteran.UI.Controls.OpsCounter.New("CtlOpsPercent", {
+        X = 910,                                            -- X position on the screen
+        Y = 990,                                            -- Y position on the screen
+        Mode="Percent"                                      -- Set display mode to perecent value
+    })
+
+    ---------------------------------------
+    -- Setup buttons
+    ---------------------------------------
+    local button = Alteran.UI.Controls.Button.New("BtnTest", {
+        X = 10,                                             -- X position on the screen
+        Y = 100,                                            -- Y position on the screen
+        OnClick = OnButtonClick                             -- Callback function that gets called when someone presses the button
+    })
+
+    local publicButton = Alteran.UI.Controls.Button.New("BtnTestPublic", {
+        X = 10,                                             -- X position on the screen
+        Y = 150 ,                                           -- Y position on the screen
+        Text="Public Button",                               -- Text to display on the button
+        PublicAccess=true,                                  -- Gives the button public access, so everyone can use it
+        OnClick = OnButtonClick                             -- Callback function that gets called when someone presses the button
+    })
+
+    local testHexagonButton = Alteran.UI.Controls.Button.New("BtnTestHexagon", {
+        X = 10,                                             -- X position on the screen
+        Y = 200 ,                                           -- Y position on the screen
+        Text="Hexagon Button",                              -- Text to display on the button
+        OnClick = OnButtonClick,                            -- Callback function that gets called when someone presses the button
+        OutlineRendererName = "Hexagon"                     -- Change the outline renderer to hexagon
+    })
+
+    local testHexagonButton2 = Alteran.UI.Controls.Button.New("BtnTestHexagon2", {
+        X = 10,                                             -- X position on the screen
+        Y = 250 ,                                           -- Y position on the screen
+        Text="Hexagon Button 2",                            -- Text to display on the button
+        OnClick = OnButtonClick,                            -- Callback function that gets called when someone presses the button
+        OutlineRendererName = "Hexagon"                     -- Change the outline renderer to hexagon
+    })
+    testHexagonButton2.OutlineRenderer.SidesRatio = 0.5;
+
+    local testHexagonButton3 = Alteran.UI.Controls.Button.New("BtnTestHexagon3", {
+        X = 10,                                             -- X position on the screen
+        Y = 300 ,                                           -- Y position on the screen
+        Text="Hexagon Button 3",                            -- Text to display on the button
+        OnClick = OnButtonClick,                            -- Callback function that gets called when someone presses the button
+        OutlineRendererName = "Hexagon"                     -- Change the outline renderer to hexagon
+    })
+    testHexagonButton3.OutlineRenderer.SidesRatio = 0.01;
+
+    local testPolygonButton = Alteran.UI.Controls.Button.New("BtnTestPolygon", {
+        X = 10,                                             -- X position on the screen
+        Y = 350 ,                                           -- Y position on the screen
+        Text="Hexagon Button 3",                            -- Text to display on the button
+        OnClick = OnButtonClick,                            -- Callback function that gets called when someone presses the button
+        OutlineRendererName = "Polygon"                     -- Change the outline renderer to hexagon
+    })
+    testPolygonButton.OutlineRenderer.Vertices = { { x = 0, y = 0 }, { x = 50, y=0}, { x = 45, y = 10 }, { x = 200, y = 40 }, {x = 10, y = 20 } };
 end

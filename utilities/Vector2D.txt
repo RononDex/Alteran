@@ -1,0 +1,52 @@
+--@name Vector2D class
+--@author Cobra
+--@updater STEAM_0:0:34192920
+
+--[[
+    This file holds the class 2D Vector
+]]
+
+-- Setup namespace for the 2D vector class
+Alteran.Vector2D = { }
+
+-- Constructor
+function Alteran.Vector2D.New(x, y)
+    local vector2D = Alteran.Vector2D:NewObject()
+
+    Alteran.ExpandTable(vector2D, Alteran.Clone(Alteran.Vector2D.Prototype))
+
+    vector2D.X = x
+    vector2D.Y = y
+
+    return vector2D
+end
+
+-- Calculates the dot product from two vectors
+function Alteran.Vector2D.DotProduct(v1, v2)
+    return (v1.X *v2.X) + (v1.Y * v2.Y)
+end
+
+-- Normalizes the vector (makes it length or value equal 1)
+function Alteran.Vector2D:Normalize()
+    local mag = math.sqrt(self.X^2 + self.Y^2)
+    return vec(v.X / mag, v.Y / mag)
+end
+
+-- Gets the vector normal (vector with orthogonal angle to the vector)
+function Alteran.Vector2D:GetNormal()
+    return Alteran.Vector2D.New(self.X, -self.Y)
+end
+
+-- Gets the delta vector between two vectors
+function Alteran.Vector2D.GetSegment(v1, v2)
+    return Alteran.Vector2D.New(v2.X - v2.Y, v2.Y - v1.Y)
+end
+
+-- The prototype for the Vector2D class
+Alteran.Vector2D.Prototype = {
+    X = 0,
+    Y = 0
+}
+
+-- Setup class
+Alteran.Class(Alteran.Vector2D)

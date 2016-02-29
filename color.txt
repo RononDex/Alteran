@@ -1,0 +1,16 @@
+--@name Color library
+--@author 
+
+--[[
+    This file contains some useful function when working with Colors
+]]
+
+-- Create a color object from RGBA
+Alteran.CreateColor = function(r, g ,b, a)
+   local color = { }
+   color.R = r or 0
+   color.G = g or 0
+   color.B = b or 0
+   color.A = a or 255
+   return color
+end

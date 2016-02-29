@@ -1,0 +1,59 @@
+--@name Rectangle Outline Renderer
+--@author Cobra
+--@updater STEAM_0:0:34192920
+
+--[[
+    This file contains the rectangle outline renderer
+]]
+
+-- Setup namespace
+Alteran.UI.OutlineRenderers.RectangleOutline = { }
+
+-- Creates a new RectangleOutline Renderer
+function Alteran.UI.OutlineRenderers.RectangleOutline.New(parameters)
+    local outlineRenderer = Alteran.UI.OutlineRenderers.RectangleOutline:NewObject()
+
+    if parameters ~= nil then
+        Alteran.ExpandTable(outlineRenderer, parameters)
+    end
+    Alteran.ExpandTable(outlineRenderer, Alteran.Clone(Alteran.UI.OutlineRenderers.RectangleOutline.Prototype))
+
+    return outlineRenderer
+end
+
+function Alteran.UI.OutlineRenderers.RectangleOutline:Render()
+
+    if self.FillPolygon then
+        Alteran.UI.Screen.setColor( self.BackgroundColor.R,
+                                    self.BackgroundColor.G,
+                                    self.BackgroundColor.B,
+                                    self.BackgroundColor.A)
+
+        Alteran.UI.Screen.drawRect(self.X, self.Y, self.Width, self.Height)
+    end
+
+    -- Draw Rectangle
+    Alteran.UI.Screen.setColor( self.Style.BorderColor.R,
+                                self.Style.BorderColor.G,
+                                self.Style.BorderColor.B,
+                                self.Style.BorderColor.A)
+
+    Alteran.UI.Screen.drawRectOutline(self.X, self.Y, self.Width, self.Height)
+end
+
+-- Setup the Prototype
+if CLIENT then
+    Alteran.UI.OutlineRenderers.RectangleOutline.Prototype = {
+        X = 0,                                                                          -- The X position on the screen
+        Y = 0,                                                                          -- The Y position on the screen
+        Style = Alteran.UI.Style.Border,                                                -- The border definition to use for the RectangleOutline (contains BorderColor)
+        Width = 150,                                                                    -- The width of the RectangleOutline
+        Height = 30,                                                                    -- The height of the RectangleOutline
+        FillPolygon = false,
+        BackgroundColor = Alteran.UI.Style.HighlightedBackgroundColor
+    }
+end
+
+-- Create a class
+Alteran.Class(Alteran.UI.OutlineRenderers.RectangleOutline)
+Alteran.UI.OutlineRenderers.RegisterRenderer("Rectangle", Alteran.UI.OutlineRenderers.RectangleOutline)

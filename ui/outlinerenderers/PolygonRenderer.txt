@@ -1,0 +1,71 @@
+--@name Polygon Outline renderer
+--@author Cobra
+--@updater STEAM_0:0:34192920
+
+--[[
+    This file contains the polygon outline renderer.
+]]
+
+-- Setup namespace
+Alteran.UI.OutlineRenderers.PolygonOutline = { }
+
+-- Creates a new RectangleOutline Renderer
+function Alteran.UI.OutlineRenderers.PolygonOutline.New(parameters)
+    local outlineRenderer = Alteran.UI.OutlineRenderers.PolygonOutline:NewObject()
+
+    if parameters ~= nil then
+        Alteran.ExpandTable(outlineRenderer, parameters)
+    end
+    Alteran.ExpandTable(outlineRenderer, Alteran.Clone(Alteran.UI.OutlineRenderers.PolygonOutline.Prototype))
+
+    return outlineRenderer
+end
+
+function Alteran.UI.OutlineRenderers.PolygonOutline:Render()
+
+    if (#self.Vertices <= 1) then
+        return
+    end
+
+    -- Fill Polygon
+    if self.FillPolygon then
+        Alteran.UI.Screen.setColor( self.BackgroundColor.R,
+                                    self.BackgroundColor.G,
+                                    self.BackgroundColor.B,
+                                    self.BackgroundColor.A)
+
+        Alteran.UI.Screen.drawPoly(self.Vertices)
+    end
+
+    -- Render the polygon
+    Alteran.UI.Screen.setColor( self.Style.BorderColor.R,
+                                self.Style.BorderColor.G,
+                                self.Style.BorderColor.B,
+                                self.Style.BorderColor.A)
+
+    for i = 1, #self.Vertices do
+        Alteran.UI.Screen.drawLine(self.X + self.Vertices[i].x, self.Y + self.Vertices[i].y, self.X + self.Vertices[i+1].x, self.Y + self.Vertices[i+1].y)
+
+        if i == #self.Vertices then
+            Alteran.UI.Screen.drawLine(self.X + self.Vertices[i].x, self.Y + self.Vertices[i].y, self.X + self.Vertices[1].x, self.Y + self.Vertices[1].y)
+        end
+    end
+end
+
+-- Setup the Prototype
+if CLIENT then
+    Alteran.UI.OutlineRenderers.PolygonOutline.Prototype = {
+        X = 0,                                                                          -- The X position on the screen
+        Y = 0,                                                                          -- The Y position on the screen
+        Style = Alteran.UI.Style.Border,                                                -- The border definition to use for the RectangleOutline (contains BorderColor)
+        Width = 150,                                                                    -- The width of the RectangleOutline
+        Height = 30,                                                                    -- The height of the RectangleOutline
+        FillPolygon = false,
+        BackgroundColor = Alteran.UI.Style.HighlightedBackgroundColor,
+        Vertices = {}
+    }
+end
+
+-- Create a class
+Alteran.Class(Alteran.UI.OutlineRenderers.PolygonOutline)
+Alteran.UI.OutlineRenderers.RegisterRenderer("Polygon", Alteran.UI.OutlineRenderers.PolygonOutline)

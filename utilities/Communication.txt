@@ -1,0 +1,29 @@
+--@name Communication library
+--@author Cobra
+--@updater STEAM_0:0:34192920
+
+--[[
+    This file contains some basic communication functions
+    like writing to chat, console or similiar
+]]
+
+
+-- This function writes to the owner's console
+Alteran.PrintToConsole = function(message)
+    printConsole(message)
+end
+
+-- Prints the given message to the owner's chat
+Alteran.PrintToChat = function(message)
+    print(message)
+end
+
+-- Prints an error message to the chat (only visible to the owner)
+Alteran.PrintError = function(msg)
+    Alteran.PrintErrorMsgToChat(msg)
+end
+
+-- Prints an error message to the chat (only visible to the owner)
+Alteran.PrintErrorMsgToChat = function(msg)
+    printColor(Color(255, 0, 0), "Error: "..msg)
+end

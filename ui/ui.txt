@@ -1,0 +1,111 @@
+--@name Framework UI system root file
+--@author Cobra
+--@updater STEAM_0:0:34192920
+
+--[[
+    This file is the core system for all UI stuff.
+    It contains a handler, which calls the Update() function on all
+    registered controls.
+    It also handels events and routes them to the corresponding controls
+]]
+
+--@include Alteran/ui/styles.txt
+--@include Alteran/ui/controls/BaseControl.txt
+--@include Alteran/ui/controls/Label.txt
+--@include Alteran/ui/controls/OpsCounter.txt
+--@include Alteran/ui/controls/Button.txt
+--@include Alteran/ui/outlinerenderers/OutlineRenderers.txt
+--@include Alteran/ui/outlinerenderers/RectangleOutline.txt
+--@include Alteran/ui/outlinerenderers/HexagonRenderer.txt
+--@include Alteran/ui/outlinerenderers/PolygonRenderer.txt
+
+-- Setup UI namespace
+Alteran.UI = { }
+Alteran.UI.Controls = { }
+
+
+-- Stores the style for the whole UI
+Alteran.UI.Style = nil
+
+-- Setting up the controls table, which will hold
+-- all registered controls for the UI
+Alteran.UI.RegisteredControls = { }
+
+-- Initializes the UI system
+Alteran.UI.Init = function()
+    -- Initialize client side
+    if CLIENT then
+        Alteran.UI.Screen = render
+        if (Alteran.UI.Screen.getIsHighRes()) then
+            Alteran.UI.Style = Alteran.UI.Styles.DefaultStyleHighRes
+        else
+            Alteran.UI.Style = Alteran.UI.Styles.DefaultStyle
+        end
+
+        Alteran.UI.Style.DefaultFont = Alteran.UI.Screen.createFont(Alteran.UI.Style.Font, Alteran.UI.Style.FontSize, false)
+        Alteran.UI.Style.HeaderFont = Alteran.UI.Screen.createFont(Alteran.UI.Style.HeaderFont, Alteran.UI.Style.HeaderFontSize, false)
+    end
+end
+
+-- Adds the given control to the UI system
+Alteran.UI.AddControl = function(ctrl)
+    if ctrl.ID == nil then
+        Alteran.PrintError("Tried to add a control with no ID defined")
+        return
+    end
+
+    if Alteran.UI.RegisteredControls[ctrl.ID] ~= nil then
+        Alteran.PrintError("A control with ID \""..ctrl.ID.."\" already exists")
+        return
+    end
+
+    -- Store the control in the intern control pool
+    Alteran.UI.RegisteredControls[ctrl.ID] = ctrl
+end
+
+-- This is the function that gets called every frame of the screen
+-- It calls the Update() function on all registerd controls
+Alteran.UI.UpdateScreen = function()
+    -- Clear the screen every frame, as everything in SF has to
+    -- get completly redrawn every frame
+    Alteran.UI.Screen.clear(Alteran.UI.Style.BackgroundColor.R,
+                            Alteran.UI.Style.BackgroundColor.G,
+                            Alteran.UI.Style.BackgroundColor.B,
+                            Alteran.UI.Style.BackgroundColor.A)
+
+    -- Render all registered controls
+    for k,v in pairs(Alteran.UI.RegisteredControls) do
+        if v.IsUIControl then
+            v:Render()
+        end
+    end
+end
+
+-- Event gets raised everytime someone presses "Use" on the screen
+Alteran.UI.OnScreenPress = function(pressedPlayer)
+    for k,v in pairs(Alteran.UI.RegisteredControls) do
+        if v.IsUIControl and v.OnScreenClick ~= nil then
+            v:OnScreenClick(pressedPlayer)
+        end
+    end
+end
+
+-- Define needed hooks
+hook("render", "Alteran_Render_Hook", Alteran.UI.UpdateScreen)
+hook("starfall_used","Alteran_Screen_Used", Alteran.UI.OnScreenPress)
+
+
+-- Include files and initialize system
+require("Alteran/ui/styles.txt")
+Alteran.UI.Init()
+
+-- Load additional files
+require("Alteran/ui/outlinerenderers/OutlineRenderers.txt")
+require("Alteran/ui/outlinerenderers/RectangleOutline.txt")
+require("Alteran/ui/outlinerenderers/HexagonRenderer.txt")
+require("Alteran/ui/outlinerenderers/PolygonRenderer.txt")
+
+require("Alteran/ui/controls/BaseControl.txt")
+require("Alteran/ui/controls/Label.txt")
+require("Alteran/ui/controls/OpsCounter.txt")
+require("Alteran/ui/controls/Button.txt")

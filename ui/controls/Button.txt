@@ -1,0 +1,138 @@
+--@name Basic Button control
+--@author Cobra
+--@updater STEAM_0:0:34192920
+
+--[[
+    The label control which prints text on the screen
+]]
+
+-- Setup namespace
+Alteran.UI.Controls.Button = { }
+
+-- Creates a new BasicButton control
+function Alteran.UI.Controls.Button.New(id, parameters)
+    local control = Alteran.UI.Controls.Button:NewObject()
+    control.ID = id
+
+    Alteran.ExpandTable(control, Alteran.Clone(Alteran.UI.Controls.BaseControl))
+    Alteran.ExpandTable(control, parameters)
+    Alteran.ExpandTable(control, Alteran.Clone(Alteran.UI.Controls.Button.Prototype))
+
+    if (control.OutlineRendererName ~= "" and control.OutlineRendererName ~= nil) then
+        control.OutlineRenderer = Alteran.UI.OutlineRenderers.GetRendererInstanceByName(control.OutlineRendererName, { }, control)
+    end
+
+    -- Register control in the UI system
+    Alteran.UI.AddControl(control)
+
+    return control
+end
+
+-- The render function for the button
+-- Draws the button on the screen
+function Alteran.UI.Controls.Button:Render()
+
+    -- Do Hover check
+    local hover = self:DoHoverCheck()
+
+    self.OutlineRenderer.FillPolygon = false
+
+    -- Draw hightlighted effect if hover
+    if hover then
+        if (self.OutlineRenderer ~= nil) then
+            self.OutlineRenderer.BackgroundColor = self.Style.HighlightedBackgroundColor
+            self.OutlineRenderer.FillPolygon = true
+        end
+        if self.OnHover ~= nil then
+            self.OnHover()
+        end
+    end
+
+
+    if self.OutlineRenderer ~= nil then
+        self.OutlineRenderer:Render()
+    end
+
+    -- Draw text
+    Alteran.UI.Screen.setColor( self.Style.TextColor.R,
+                                self.Style.TextColor.G,
+                                self.Style.TextColor.B,
+                                self.Style.TextColor.A)
+
+
+    Alteran.UI.Screen.drawText(self.Style.Font, self.X + (self.Width / 2), self.Y + (self.Height * 0.2), self.Text, Alteran.UI.Screen.TEXT_ALIGN_CENTER)
+end
+
+-- Gets called when a player presses on the screen
+function Alteran.UI.Controls.Button:OnScreenClick(pressedPlayer)
+    if self.OnClick == nil then
+        return
+    end
+
+    local x, y = Alteran.UI.Screen.cursorPos(pressedPlayer)
+    local pos = Alteran.Vector2D.New(x, y)
+    local pressed = false
+
+    if  self.PublicAccess
+        and Alteran.CollisionCheck.IsInBox(pos, self) then
+        pressed = true
+    end
+    if  not self.PublicAccess
+        and pressedPlayer:steamID64() == Alteran.Owner:steamID64()
+        and Alteran.CollisionCheck.IsInBox(pos, self) then
+        pressed = true
+    end
+
+    if pressed then
+        self.OnClick(pressedPlayer, self)
+    end
+end
+
+-- Checks if there is a user hovering over the button
+function Alteran.UI.Controls.Button:DoHoverCheck()
+    local hover = false
+
+    -- Check if there is a player hovering over the button (only if PublicAccess is true)
+    if self.PublicAccess then
+        for key,vPlayer in pairs(Alteran.Players) do
+            local x, y = Alteran.UI.Screen.cursorPos(vPlayer)
+            local pos = Alteran.Vector2D.New(x, y)
+            if Alteran.CollisionCheck.IsInBox(pos, self) then
+                hover = true
+                break
+            end
+        end
+    else
+        -- Only check for owner hovering
+        local x, y = Alteran.UI.Screen.cursorPos(Alteran.Owner)
+        local pos = Alteran.Vector2D.New(x, y)
+        if Alteran.CollisionCheck.IsInBox(pos, self) then
+            hover = true
+        end
+    end
+
+    return hover
+end
+
+-- Setup the Prototype
+if CLIENT then
+    Alteran.UI.Controls.Button.Prototype = {
+        X = 0,                                                                          -- The X position on the screen
+        Y = 0,                                                                          -- The Y position on the screen
+        Style = {
+            Font = Alteran.UI.Style.DefaultFont,                                        -- Font to use for the button's text
+            TextColor = Alteran.UI.Style.TextColor,                                     -- Color to use for the button's text
+            HighlightedBackgroundColor = Alteran.UI.Style.HighlightedBackgroundColor    -- The background color to use for highlighted button
+        },
+        Width = 150,                                                                    -- The width of the button
+        Height = 30,                                                                    -- The height of the button
+        Text = "Button",                                                                -- Text to display on the button
+        PublicAccess = false,                                                           -- If true, allows all people to use the button, if false only owner can use it
+        OnHover = nil,                                                                  -- Callback function to call when someone hovers over the button
+        OnClick = nil,                                                                  -- Callback function to call when someone presses on the button
+        OutlineRendererName = "Rectangle"
+    }
+end
+
+-- Create a class
+Alteran.Class(Alteran.UI.Controls.Button)

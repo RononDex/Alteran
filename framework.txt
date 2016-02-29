@@ -1,0 +1,65 @@
+--@name Framework Root File
+--@author Cobra
+--@updater STEAM_0:0:34192920
+
+--[[
+    *******************************************************************
+        Alteran Framework V0.1.1
+    *******************************************************************
+    Credits:
+        - Cobra (lead author, main programmer)
+
+    This file is the entry point for the framework
+    This files includes all framework files and holds functions to initialize
+    the subsystems from the framework
+]]
+
+--@include Alteran/metatables/Class.txt
+--@include Alteran/Utilities/Utilities.txt
+--@include Alteran/ui/ui.txt
+
+printConsole("Alteran Framework root file included")
+
+-- Setting up Alteran namespace
+Alteran = { }
+
+--[[
+    If you have placed this framework in a different folder than "Alteran"
+    you have to replace the path of all require
+    Furthermore you will have to change the paths in the
+    includes at the top of this page as they can't be build dynamically
+]]
+
+-- Initializes the Core of the framework
+function Alteran.LoadCoreModule()
+    if (CoreInitialized) then
+        printConsole("Tried to initialize core system more than once")
+        return
+    end
+
+    -- Load all the necessary files
+    require("Alteran/metatables/Class.txt")
+    require("Alteran/Utilities/Utilities.txt")
+
+    CoreInitialized = true
+    printConsole("Core system loaded")
+end
+
+-- Initializes the UI system of the framework
+function Alteran.LoadUIModule()
+    if (not CoreInitialized) then
+        Alteran.PrintError("The core system is not initialized yet")
+    end
+
+    if (UIInitialized) then
+        printConsole("Tried to initialize ui system more than once")
+        return
+    end
+
+    -- Load all the necessary files
+    require("Alteran/ui/ui.txt")
+    Alteran.UI.Init()
+
+    UIInitialized = true
+    printConsole("UI system loaded")
+end

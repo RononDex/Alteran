@@ -1,0 +1,53 @@
+--@name Label control
+--@author Cobra
+--@updater STEAM_0:0:34192920
+
+--[[
+    The label control which prints text on the screen
+]]
+
+-- Setup namespace
+Alteran.UI.Controls.Label = { }
+
+function Alteran.UI.Controls.Label.New(id, parameters)
+
+    local control = Alteran.UI.Controls.Label:NewObject()
+    control.ID = id
+
+    Alteran.ExpandTable(control, Alteran.Clone(Alteran.UI.Controls.BaseControl))
+    Alteran.ExpandTable(control, parameters)
+    Alteran.ExpandTable(control, Alteran.Clone(Alteran.UI.Controls.Label.Prototype))
+
+    -- Register control in the UI system
+    Alteran.UI.AddControl(control)
+
+    return control
+end
+
+-- The render function for the label
+-- Draws the label on the screen
+function Alteran.UI.Controls.Label:Render()
+
+    Alteran.UI.Screen.setColor( self.Style.TextColor.R,
+                                self.Style.TextColor.G,
+                                self.Style.TextColor.B,
+                                self.Style.TextColor.A)
+
+    Alteran.UI.Screen.drawText(self.Style.Font, self.X, self.Y, self.Text)
+end
+
+if CLIENT then
+    Alteran.UI.Controls.Label.Prototype = {
+        X = 0,
+        Y = 0,
+        Width = 150,
+        Height = 30,
+        Style = {
+            Font = Alteran.UI.Style.DefaultFont,
+            TextColor = Alteran.UI.Style.TextColor
+        },
+        Text = "Label"
+    }
+end
+-- Create a class out of the label table
+Alteran.Class(Alteran.UI.Controls.Label)

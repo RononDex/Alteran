@@ -1,0 +1,59 @@
+--@name Ops Counter
+--@author Cobra
+--@updater STEAM_0:0:34192920
+
+--[[
+    This file contains a Ops Counter UI control, which
+    can display the current used Ops as percent
+    or as absolute value
+]]
+
+-- Setting up the namespace for this control
+Alteran.UI.Controls.OpsCounter = { }
+
+-- Creates a new OpsCounter control
+function Alteran.UI.Controls.OpsCounter.New(id, parameters)
+
+    local control = Alteran.UI.Controls.OpsCounter:NewObject()
+
+    control.ID = id
+
+    -- Register control in the UI system
+    Alteran.UI.AddControl(control)
+
+
+    Alteran.ExpandTable(control, Alteran.Clone(Alteran.UI.Controls.BaseControl))
+    Alteran.ExpandTable(control, parameters)
+    Alteran.ExpandTable(control, Alteran.Clone(Alteran.UI.Controls.OpsCounter.Prototype))
+
+    local label = Alteran.UI.Controls.Label.New(id.."_Label", { X = control.X, Y = control.Y })
+    control.Label = label
+
+
+    return control
+end
+
+-- Define the render function of this control
+function Alteran.UI.Controls.OpsCounter:Render()
+    -- As the opsCoutner simply is a proxy for a label, we have to draw nothing here
+    -- but instead we have to update the label
+    self.Label.X = self.X
+    self.Label.Y = self.Y
+    if self.Mode == "Percent" then
+        self.Label.Text = string.format("OPS: %s", opsUsed() / opsMax() * 100).."%"
+    end
+    if self.Mode == "Absolute" then
+        self.Label.Text = string.format("OPS: %s / %s", opsUsed(), opsMax())
+    end
+end
+
+if CLIENT then
+    Alteran.UI.Controls.OpsCounter.Prototype = {
+        X = 0,                  -- The X position on the screen
+        Y = 0,                  -- The Y position on the screen
+        Mode = "Percent"        -- Display Mode. Use "Percent" to show percentage usage, or "Absolute" to show absolute ops usage
+    }
+end
+
+-- Setup class
+Alteran.Class(Alteran.UI.Controls.OpsCounter)

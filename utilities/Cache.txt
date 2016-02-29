@@ -1,0 +1,27 @@
+--@name Cache
+--@author Cobra
+--@updater STEAM_0:0:34192920
+
+--[[
+    This file acts as a cache for different stuff that might be used frequently but takes ops to load
+]]
+
+-- Holds the owner of the starfall chip or screen
+Alteran.Owner = ents.owner()
+
+-- Holds a list of all connected players
+Alteran.Players = {}
+
+-- Refreshes the cached list of users
+Alteran.RefreshPlayers = function()
+    Alteran.Players = find.allPlayers()
+end
+
+-- Do an initiale load of the users
+Alteran.RefreshPlayers()
+
+-- Hook the player disconnect event so we can refresh the cached list of connected users
+hook("playerdisconnected", "Alteran_RefreshPlayer_OnDisconnect", Alteran.RefreshPlayers)
+
+-- Also hook playerspawn, as there is no event to catch a connecting user
+hook("playerspawn", "Alteran_RefreshPlayer_OnSpawn", Alteran.RefreshPlayers)

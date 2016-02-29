@@ -1,0 +1,28 @@
+--@name Utilities root script
+--@author Cobra
+--@updater STEAM_0:0:34192920
+
+--[[
+    Starfall Scripting Environment
+
+	All documentation is available through the ? button at the top right of the editor.
+	If you need help with concepts/usage, then see the tutorial below:
+
+    http://teamscm.co.uk/showthread.php?tid=7
+
+    Happy scripting!
+]]
+
+--@include Alteran/Utilities/Cache.txt
+--@include Alteran/Utilities/Color.txt
+--@include Alteran/Utilities/Communication.txt
+--@include Alteran/Utilities/Table.txt
+--@include Alteran/Utilities/Vector2D.txt
+--@include Alteran/Utilities/CollisionCheck.txt
+
+require("Alteran/Utilities/Cache.txt")
+require("Alteran/Utilities/Color.txt")
+require("Alteran/Utilities/Communication.txt")
+require("Alteran/Utilities/Table.txt")
+require("Alteran/Utilities/Vector2D.txt")
+require("Alteran/Utilities/CollisionCheck.txt")

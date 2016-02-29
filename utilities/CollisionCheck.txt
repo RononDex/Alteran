@@ -1,0 +1,25 @@
+--@name Collision Check
+--@author Cobra
+--@updater STEAM_0:0:34192920
+
+--[[
+    Contains useful functions to determine wether a certain point is inside
+    a certain shape.
+    Contains complex collision checks and simple (low ops) checks
+]]
+
+-- Setup Namespace
+Alteran.CollisionCheck = {}
+
+-- Checks if a certain point is inside a box.
+-- Very low ops check
+Alteran.CollisionCheck.IsInBox = function(point, box)
+    if point ~=nil and point.X ~= nil and point.Y and box ~= nil
+        and point.X > box.X and point.X < box.X + box.Width
+        and point.Y > box.Y and point.Y < box.Y + box.Height then
+        -- Point is inside the box
+        return true
+    else
+        return false
+    end
+end

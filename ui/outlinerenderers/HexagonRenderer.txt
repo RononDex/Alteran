@@ -1,0 +1,77 @@
+--@name Hexagon Outline renderer
+--@author Cobra
+--@updater STEAM_0:0:34192920
+
+--[[
+    This file contains the hexagon outline renderer.
+    Can also be used to display a diamond shaped four edged shape
+]]
+
+-- Setup namespace
+Alteran.UI.OutlineRenderers.HexagonOutline = { }
+
+-- Creates a new RectangleOutline Renderer
+function Alteran.UI.OutlineRenderers.HexagonOutline.New(parameters)
+    local outlineRenderer = Alteran.UI.OutlineRenderers.HexagonOutline:NewObject()
+
+    if parameters ~= nil then
+        Alteran.ExpandTable(outlineRenderer, parameters)
+    end
+    Alteran.ExpandTable(outlineRenderer, Alteran.Clone(Alteran.UI.OutlineRenderers.HexagonOutline.Prototype))
+
+    return outlineRenderer
+end
+
+-- Render the hexagon
+function Alteran.UI.OutlineRenderers.HexagonOutline:Render()
+
+    local vertices = { }
+    vertices[1] = { x = self.X, y = self.Y + (self.Height / 2) }
+    vertices[2] = { x = self.X + (self.Width * (1 -self.SidesRatio))/2, y = self.Y }
+    vertices[3] = { x = self.X + self.Width - (self.Width * (1-self.SidesRatio))/2, y = self.Y }
+    vertices[4] = { x = self.X + self.Width, y = self.Y + (self.Height/2) }
+    vertices[5] = { x = self.X + self.Width - (self.Width * (1-self.SidesRatio))/2, y = self.Y + self.Height }
+    vertices[6] = { x = self.X + (self.Width * (1 -self.SidesRatio))/2, y = self.Y + self.Height }
+
+    -- Fill Polygon
+    if self.FillPolygon then
+        Alteran.UI.Screen.setColor( self.BackgroundColor.R,
+                                    self.BackgroundColor.G,
+                                    self.BackgroundColor.B,
+                                    self.BackgroundColor.A)
+
+        Alteran.UI.Screen.drawPoly(vertices)
+    end
+
+    -- Draw Hexagon
+    Alteran.UI.Screen.setColor( self.Style.BorderColor.R,
+                                self.Style.BorderColor.G,
+                                self.Style.BorderColor.B,
+                                self.Style.BorderColor.A)
+
+    Alteran.UI.Screen.drawLine(vertices[1].x, vertices[1].y, vertices[2].x, vertices[2].y)
+    Alteran.UI.Screen.drawLine(vertices[2].x, vertices[2].y, vertices[3].x, vertices[3].y)
+    Alteran.UI.Screen.drawLine(vertices[3].x, vertices[3].y, vertices[4].x, vertices[4].y)
+    Alteran.UI.Screen.drawLine(vertices[4].x, vertices[4].y, vertices[5].x, vertices[5].y)
+    Alteran.UI.Screen.drawLine(vertices[5].x, vertices[5].y, vertices[6].x, vertices[6].y)
+    Alteran.UI.Screen.drawLine(vertices[6].x, vertices[6].y, vertices[1].x, vertices[1].y)
+end
+
+
+-- Setup the Prototype
+if CLIENT then
+    Alteran.UI.OutlineRenderers.HexagonOutline.Prototype = {
+        X = 0,                                                                          -- The X position on the screen
+        Y = 0,                                                                          -- The Y position on the screen
+        Style = Alteran.UI.Style.Border,                                                -- The border definition to use for the RectangleOutline (contains BorderColor)
+        Width = 150,                                                                    -- The width of the RectangleOutline
+        Height = 30,                                                                    -- The height of the RectangleOutline
+        SidesRatio = 0.8,
+        FillPolygon = false,
+        BackgroundColor = Alteran.UI.Style.HighlightedBackgroundColor
+    }
+end
+
+-- Create a class
+Alteran.Class(Alteran.UI.OutlineRenderers.HexagonOutline)
+Alteran.UI.OutlineRenderers.RegisterRenderer("Hexagon", Alteran.UI.OutlineRenderers.HexagonOutline)

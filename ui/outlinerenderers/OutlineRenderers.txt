@@ -1,0 +1,57 @@
+--@name OutlineRenderers
+--@author Cobra
+--@updater STEAM_0:0:34192920
+
+--[[
+    This file manages all the outline renders and makes it possible
+    to register an outline renderer by name
+]]
+
+--Setup Namespace
+Alteran.UI.OutlineRenderers = { }
+
+-- Create a dictionary<string, OutlineRenderer> for renderers
+Alteran.UI.OutlineRenderers.RegisteredRenderers = { }
+
+-- This function is used to register an outline renderer to the UI system,
+-- so that controls can use the given outline renderer by its name
+function Alteran.UI.OutlineRenderers.RegisterRenderer(rendererName, renderer)
+   if rendererName == nil then
+        Alteran.PrintError("Tried to register an outline renderer with no name specified")
+        return
+    end
+
+    if Alteran.UI.OutlineRenderers.RegisteredRenderers[rendererName] ~= nil then
+        Alteran.PrintError("An outline renderer with ID \""..name.."\" has already been registered")
+        return
+    end
+
+    -- Store the renderer in the internal dictionary
+    Alteran.UI.OutlineRenderers.RegisteredRenderers[rendererName] = renderer
+end
+
+-- Creates and returns an instance of the outline renderer with the given name and parameters
+function Alteran.UI.OutlineRenderers.GetRendererInstanceByName(rendererName, parameters, control)
+    if rendererName == nil then
+        Alteran.PrintError("No name specified for the outline renderer you are trying to create an instance of")
+        return
+    end
+
+    if Alteran.UI.OutlineRenderers.RegisteredRenderers[rendererName] == nil then
+        Alteran.PrintError("There is no Outline renderer registered with the name "..rendererName)
+        return
+    end
+
+    if control ~= nil then
+        if parameters == nil then
+            parameters = { }
+        end
+
+        parameters.X = control.X
+        parameters.Y = control.Y
+        parameters.Width = control.Width
+        parameters.Height = control.Height
+    end
+
+    return Alteran.UI.OutlineRenderers.RegisteredRenderers[rendererName].New(parameters)
+end
